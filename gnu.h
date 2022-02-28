@@ -1,3 +1,5 @@
+// Copyright (c) John Allen Whitley, 2022, BSD 3-Clause
+
 #ifndef GNU_H
 #define GNU_H
 
