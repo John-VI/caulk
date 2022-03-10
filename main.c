@@ -17,6 +17,8 @@
 /* #endif */
 
 #include "clkwin.h"
+#include "clktex.h"
+#include "clkfont.h"
 
 #define INTWID 320
 #define INTHEI 240
@@ -25,12 +27,17 @@ int main(int argc, char *argv[]) {
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER);
   IMG_Init(IMG_INIT_PNG);
 
-  SDL_Window *win = newwin("Regalism", INTWID, INTHEI);
-  SDL_Renderer *ren = newren(win, 0, 0, 0, 255);
+  SDL_Window *win = CLK_NewWindow("Regalism", INTWID, INTHEI);
+  SDL_Renderer *ren = CLK_NewRenderer(win, 0, 0, 0, 255);
+  CLK_SetRenderer(ren);
+  CLK_SetWindow(win);
 
-  SDL_Surface *frogsurf = IMG_Load("frog.png");
-  SDL_Texture *frog = SDL_CreateTextureFromSurface(ren, frogsurf);
-  SDL_FreeSurface(frogsurf);
+  /* SDL_Surface *frogsurf = IMG_Load("frog.png"); */
+  /* SDL_Texture *frog = SDL_CreateTextureFromSurface(ren, frogsurf); */
+  /* SDL_FreeSurface(frogsurf); */
+
+  CLK_Sprite *frog = CLK_SpriteFromFile("frog.png", 0b10000000);
+  /* CLK_Font *vga = CLK_FontFromFile("") */
 
   SDL_Event e;
   
@@ -41,10 +48,10 @@ int main(int argc, char *argv[]) {
 	quit = 1;
     }
     SDL_RenderClear(ren);
-    SDL_RenderCopy(ren, frog, NULL, NULL);
+    SDL_RenderCopy(ren, frog->texture, NULL, NULL);
     SDL_RenderPresent(ren);
   }
-  SDL_DestroyTexture(frog);
+  CLK_DestroySprite(frog);
   SDL_DestroyRenderer(ren);
   SDL_DestroyWindow(win);
   

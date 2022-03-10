@@ -5,6 +5,9 @@
 
 #include "clkwin.h"
 
+SDL_Window *CLK_Window;
+SDL_Renderer *CLK_Renderer;
+
 SDL_Window *CLK_NewWindow(const char name[],  int width,
 		    int height) {
   SDL_Window *win = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED,
@@ -25,4 +28,14 @@ SDL_Renderer *CLK_NewRenderer( SDL_Window *win,  uint8_t r,  uint8_t g,
     SDL_SetRenderDrawColor(rend, r, g, b, a);
   }
   return rend;
+}
+
+SDL_Renderer *CLK_SetRenderer(SDL_Renderer *newren) {
+  CLK_Renderer = newren;
+  return CLK_Renderer;
+}
+
+SDL_Window *CLK_SetWindow(SDL_Window *newwin) {
+  CLK_Window = newwin;
+  return CLK_Window;
 }

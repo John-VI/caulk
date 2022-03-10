@@ -4,8 +4,8 @@ IDIR=includes
 CC=gcc
 CCFLAGS=-I$(IDIR) -ggdb -Wall -pedantic -fdiagnostics-color=always
 LIBS=-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -mwindows -lpthread 
-DEPS=window.h
-OBJ=main.o window.o
+DEPS=clkwin.h clktex.h clkfont.h
+OBJ=main.o clkwin.o clktex.o clkfont.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CCFLAGS)

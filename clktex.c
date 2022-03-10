@@ -19,6 +19,12 @@
 /*   return tex; */
 /* } */
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <stdlib.h>
+
+#include "clktex.h"
+
 #define CLK_DEFAULT_SPRITE_MODE 0b10000000
 /* #define CLK_SpriteFromTextureDFLG(SDL_Renderer *ren, SDL_Texture *texture) \ */
 /*   CLK_SpriteFromTextureCFLG(ren, texture, CLK_DEFAULT_SPRITE_MODE) */
@@ -26,40 +32,60 @@
 /* #define CLK_SpriteFromTexture(...) _CLK_GET_SFT_OVERLOAD(__VA_ARGS__, CLK_SpriteFromTextureCFLG, \ */
 /* 							 CLK_SpriteFromTextureDFLG)(__VA_ARGS__) */
 
-typedef struct {
-  SDL_Rect scalepostition;
-  SDL_Rect spritesheetpos;
-  uint8_t mode;
-  SDL_Texture *texture;
-} CLK_Sprite;
+extern SDL_Renderer *CLK_Renderer;
 
-typedef struct {
-  unsigned int charw;
-  unsigned int charh;
-  unsigned int cperr;
-  unsigned int cperc;
-  SDL_Texture *texture;
-} CLK_Font;
+void CLK_DestroySprite(CLK_Sprite *sprite) {
+  SDL_DestroyTexture(sprite->texture);
+  free(sprite);
+}
 
-SDL_Texture *CLK_LoadTexture(SDL_Renderer *ren, const char[] filename) {
+void CLK_DestroyFont(CLK_Font *font) {
+  SDL_DestroyTexture(font->texture);
+  free(font);
+}
+
+SDL_Texture *CLK_LoadTexture(const char filename[]) {
   SDL_Surface *surface = IMG_Load(filename);
-  SDL_Texture *outputtexture = SDL_CreateTextureFromSurface(ren, surf);
+  SDL_Texture *outputtexture = SDL_CreateTextureFromSurface(CLK_Renderer, surface);
   SDL_FreeSurface(surface);
   return outputtexture;
 }
 
-CLK_Sprite *CLK_SpriteFromTexture/*CFLG*/(SDL_Renderer *ren, SDL_Texture *texture, uint8_t mode) {
+CLK_Sprite *CLK_SpriteFromTexture/*CFLG*/(SDL_Texture *texture, uint8_t mode) {
   CLK_Sprite *output = malloc(sizeof(CLK_Sprite));
   int w;
   int h;
   SDL_QueryTexture(texture, NULL, NULL, &w, &h);
-  output->scalepostition = { 0, 0, w, h };
-  output->spritesheetpos = { 0, 0, 0, 0 };
+  output->scaleposition.x = 0;
+  output->scaleposition.y = 0;
+  output->scaleposition.w = w;
+  output->scaleposition.h = h;
+  output->spritesheetpos.x = 0;
+  output->spritesheetpos.y = 0;
+  output->spritesheetpos.w = 0;
+  output->spritesheetpos.h = 0;
   output->texture = texture;
   output->mode = mode;
   return output;
 }
 
-CLK_Sprite *CLK_SpriteFromFile(SDL_Renderer *ren, const char[] filename, uint8_t mode) {
-  return CLK_SpriteFromTexture(ren, CLK_LoadTexture(ren, filename), mode);
+CLK_Sprite *CLK_SpriteFromFile(const char filename[], uint8_t mode) {
+  return CLK_SpriteFromTexture(CLK_LoadTexture(filename), mode);
+}
+
+CLK_Font *CLK_FontFromFile(const char filename[], const unsigned int charwidth, const unsigned int charheight,
+			   const unsigned int charsperrow, const unsigned int charspercol) {
+  SDL_Texture *texture = CLK_LoadTexture(filename);
+  if (!texture)
+    return NULL;
+  
+  CLK_Font *output = malloc(sizeof(CLK_Font));
+  output->charw = charwidth;
+  output->charh = charheight;
+  output->cperr = charsperrow;
+  output->cperc = charspercol;
+  output->texture = texture;
+  output->color = NULL;
+
+  return output;
 }
