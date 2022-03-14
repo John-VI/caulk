@@ -21,7 +21,7 @@
 #include "clkfont.h"
 
 #define INTWID 320
-#define INTHEI 240
+#define INTHEI 320
 
 int main(int argc, char *argv[]) {
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER);
@@ -37,7 +37,8 @@ int main(int argc, char *argv[]) {
   /* SDL_FreeSurface(frogsurf); */
 
   CLK_Sprite *frog = CLK_SpriteFromFile("frog.png", 0b10000000);
-  /* CLK_Font *vga = CLK_FontFromFile("") */
+  CLK_Font *vga = CLK_FontFromFile("compac.png", 8, 16, 96, 1);
+  CLK_SetFont(vga);
 
   SDL_Event e;
   
@@ -49,9 +50,13 @@ int main(int argc, char *argv[]) {
     }
     SDL_RenderClear(ren);
     SDL_RenderCopy(ren, frog->texture, NULL, NULL);
+    for (int i = 0; i < INTWID / 8; i++)
+      for (int j = 0; j < INTHEI / 16; j++)
+	CLK_RenderChar((char)(i * j + 33), NULL, i * 8, j * 16);
     SDL_RenderPresent(ren);
   }
   CLK_DestroySprite(frog);
+  CLK_DestroyFont(vga);
   SDL_DestroyRenderer(ren);
   SDL_DestroyWindow(win);
   

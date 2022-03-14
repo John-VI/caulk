@@ -1,3 +1,5 @@
+// Copyright (c) John Allen Whitley, 2022, BSD 3-Clause
+
 #ifndef CLK_TEXTURE_H
 #define CLK_TEXTURE_H
 
