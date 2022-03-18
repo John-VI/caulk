@@ -19,6 +19,7 @@
 #include "clkwin.h"
 #include "clktex.h"
 #include "clkfont.h"
+#include "inputs.h"
 
 #define INTWID 320
 #define INTHEI 320
@@ -40,19 +41,21 @@ int main(int argc, char *argv[]) {
   CLK_Font *vga = CLK_FontFromFile("compac.png", 8, 16, 96, 1);
   CLK_SetFont(vga);
 
-  SDL_Event e;
+  enum translatedinput input;
+  char set = ' ';
   
   int quit = 0;
   while (!quit) {
-    while (SDL_PollEvent(&e) != 0) {
-      if (e.type == SDL_QUIT)
-	quit = 1;
-    }
+    while ((input = TranslateInputs()) == I_NONE);
+    if (input == I_QUIT)
+      quit = 1;
     SDL_RenderClear(ren);
     SDL_RenderCopy(ren, frog->texture, NULL, NULL);
-    for (int i = 0; i < INTWID / 8; i++)
-      for (int j = 0; j < INTHEI / 16; j++)
-	CLK_RenderChar((char)(i * j + 33), NULL, i * 8, j * 16);
+    if (input >= I_DOWNLEFT) {
+      set = '1' + input - I_DOWNLEFT;
+      printf("%d\n", input);
+    }
+    CLK_RenderChar(set, NULL, 0, 0);
     SDL_RenderPresent(ren);
   }
   CLK_DestroySprite(frog);
