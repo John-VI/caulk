@@ -3,9 +3,12 @@
 #ifndef INPUTS_H
 #define INPUTS_H
 
-enum translatedinput { I_NONE, I_QUIT, I_DOWNLEFT, I_DOWN, I_DOWNRIGHT, I_LEFT,
-  I_POWERGAP /* PLACEHOLDER: Don't question it */, I_RIGHT, I_UPLEFT, I_UP, I_UPRIGHT };
+typedef struct {
+  SDL_Keycode code;
+  int (*action)();
+} keycell;
 
-enum translatedinput TranslateInputs();
+int processinputs(keycell keybinds[], int keybindsl);
+void setquitaction(void (exitfunc()));
 
 #endif /* INPUTS_H */

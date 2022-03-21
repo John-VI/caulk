@@ -24,6 +24,17 @@
 #define INTWID 320
 #define INTHEI 320
 
+int quit = 0;
+int inc = 0;
+
+void exeunt() {
+  quit = 1;
+}
+
+int raiseinc() {
+  return inc++;
+}
+
 int main(int argc, char *argv[]) {
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER);
   IMG_Init(IMG_INIT_PNG);
@@ -41,21 +52,16 @@ int main(int argc, char *argv[]) {
   CLK_Font *vga = CLK_FontFromFile("compac.png", 8, 16, 96, 1);
   CLK_SetFont(vga);
 
-  enum translatedinput input;
-  char set = ' ';
+  setquitaction(exeunt);
+  keycell keybinds = { SDLK_1, raiseinc };
   
-  int quit = 0;
   while (!quit) {
-    while ((input = TranslateInputs()) == I_NONE);
-    if (input == I_QUIT)
-      quit = 1;
+    processinputs(&keybinds, 1);
     SDL_RenderClear(ren);
     SDL_RenderCopy(ren, frog->texture, NULL, NULL);
-    if (input >= I_DOWNLEFT) {
-      set = '1' + input - I_DOWNLEFT;
-      printf("%d\n", input);
-    }
-    CLK_RenderChar(set, NULL, 0, 0);
+    
+    CLK_RenderChar('0' + inc, NULL, 0, 0);
+    
     SDL_RenderPresent(ren);
   }
   CLK_DestroySprite(frog);

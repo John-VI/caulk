@@ -4,22 +4,32 @@
 
 #include "inputs.h"
 
-enum translatedinput TranslateInputs() {
-  SDL_Event e;
-  int diff = SDLK_KP_1 - I_DOWNLEFT;
-  
-  if (SDL_PollEvent(&e) == 0)
-    return I_NONE;
-  
-  switch (e.type) {
+void (*quitaction)();
 
-  case SDL_QUIT:
-    return I_QUIT;
+int processinputs(keycell keybinds[], int keybindsl) {
+  SDL_Event e;
+  int processed;
+  
+  while (SDL_PollEvent(&e) != 0) {
+    switch (e.type) {
+
+    case SDL_QUIT:
+      quitaction();
+      processed++;
+      break;
     
-  case SDL_KEYDOWN:
-    if (e.key.keysym.sym >= SDLK_KP_1 && e.key.keysym.sym <= SDLK_KP_9)
-      return e.key.keysym.sym - diff;
-  default:
-    return TranslateInputs();
+    case SDL_KEYDOWN:
+      for (int i = 0; i < keybindsl; i++)
+	if (keybinds[i].code == e.key.keysym.sym) {
+	  keybinds[i].action();
+	  processed++;
+	}
+      break;
+    }
   }
+  return processed;
+}
+
+void setquitaction(void (exitfunc())) {
+  quitaction = exitfunc;
 }
