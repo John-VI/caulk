@@ -21,7 +21,7 @@ int processinputs(keycell keybinds[], int keybindsl) {
     case SDL_KEYDOWN:
       for (int i = 0; i < keybindsl; i++)
 	if (keybinds[i].code == e.key.keysym.sym) {
-	  keybinds[i].action();
+	  keybinds[i].action(e);
 	  processed++;
 	}
       break;

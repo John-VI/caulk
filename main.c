@@ -20,19 +20,20 @@
 #include "clktex.h"
 #include "clkfont.h"
 #include "inputs.h"
+#include "monster.h"
+#include "grid.h"
+#include "player.h"
 
 #define INTWID 320
 #define INTHEI 320
 
 int quit = 0;
 int inc = 0;
+grid *cgrid;
+SDL_Color white = { 255, 255, 255 };
 
 void exeunt() {
   quit = 1;
-}
-
-int raiseinc() {
-  return inc++;
 }
 
 int main(int argc, char *argv[]) {
@@ -53,17 +54,23 @@ int main(int argc, char *argv[]) {
   CLK_SetFont(vga);
 
   setquitaction(exeunt);
-  keycell keybinds = { SDLK_1, raiseinc };
+  keycell keybinds = { SDLK_1, move };
+
+  cgrid = newGrid(10, 10);
+  monsterform form = { 100, '@', &white, AI_Player, 1, 50, 0 };
+  spawnMonster(cgrid, &form, 4, 4);
   
   while (!quit) {
     processinputs(&keybinds, 1);
     SDL_RenderClear(ren);
     SDL_RenderCopy(ren, frog->texture, NULL, NULL);
-    
-    CLK_RenderChar('0' + inc, NULL, 0, 0);
+
+    grid_Tick(cgrid);
+    grid_Draw(cgrid);
     
     SDL_RenderPresent(ren);
   }
+  grid_Destroy(cgrid);
   CLK_DestroySprite(frog);
   CLK_DestroyFont(vga);
   SDL_DestroyRenderer(ren);

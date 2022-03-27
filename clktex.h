@@ -3,14 +3,16 @@
 #ifndef CLK_TEXTURE_H
 #define CLK_TEXTURE_H
 
-typedef struct {
+#include <SDL2/SDL.h>
+
+typedef struct CLK_Sprite {
   SDL_Rect scaleposition;
   SDL_Rect spritesheetpos;
   uint8_t mode;
   SDL_Texture *texture;
 } CLK_Sprite;
 
-typedef struct {
+typedef struct CLK_Font {
   unsigned int charw;
   unsigned int charh;
   unsigned int cperr;
