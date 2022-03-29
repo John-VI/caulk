@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
   CLK_SetFont(vga);
 
   setquitaction(exeunt);
-  keycell keybinds = { SDLK_1, move };
+  keycell keybinds = { SDLK_KP_1, move };
 
   cgrid = newGrid(10, 10);
   monsterform form = { 100, '@', &white, AI_Player, 1, 50, 0 };
@@ -67,6 +67,8 @@ int main(int argc, char *argv[]) {
 
     grid_Tick(cgrid);
     grid_Draw(cgrid);
+    CLK_RenderChar('0' + cgrid->mlist->start->x, NULL, 100, 100);
+    CLK_RenderChar('0' + cgrid->mlist->start->y, NULL, 108, 100);
     
     SDL_RenderPresent(ren);
   }

@@ -55,7 +55,7 @@ void grid_Destroy(grid *grid) {
 
 grid *newGrid(int w, int h) {
   grid *output = malloc(sizeof(grid));
-  output->tiles = calloc(w * h, sizeof(tile*));
+  output->tiles = calloc(w * h, sizeof(tile));
   output->w = w;
   output->h = h;
   output->mlist = createMonsterlist();
@@ -84,6 +84,7 @@ int grid_Tick(grid *g) {
   }
   if (g->inputblock) {
     monster = g->inputblock->next;
+    g->inputblock = NULL;
   } else {
     monster = g->mlist->start;
   }
@@ -96,8 +97,9 @@ int grid_Tick(grid *g) {
   return moves;
 }
 
-int tile_Draw(tile *t) {
-  return CLK_RenderChar('.', NULL, t->x, t->y);
+int tile_Draw(grid *g, int x, int y) {
+  tile *t = getGridTile(g, x, y);
+  return CLK_RenderChar('.', NULL, x, y);
 }
 
 void grid_Draw(grid *g) {
@@ -106,7 +108,7 @@ void grid_Draw(grid *g) {
       if (getGridTile(g, x, y)->monster)
 	monster_Draw(getGridTile(g, x, y)->monster);
       else
-	tile_Draw(getGridTile(g, x, y));
+	tile_Draw(g, x, y);
 }
 
 coords grid_MoveMonster(grid *g, monster *m, int x, int y) {
