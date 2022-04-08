@@ -22,7 +22,7 @@ int monster_Tick(monster *monster) {
 }
 
 int monster_Render(monster *monster) {
-  return CLK_RenderChar(monster->form->c, monster->form->color, monster->x, monster->y);
+  return CLK_DrawGridChar(monster->form->c, monster->form->color, monster->x, monster->y);
 }
 
 void monsterform_Destroy(monsterform *form) {
@@ -46,5 +46,5 @@ monster *createMonsterFromForm(monsterform *form, int x, int y) {
 }
 
 int monster_Draw(monster *m) {
-  return CLK_RenderChar(m->form->c, m->form->color, m->x, m->y);
+  return CLK_DrawGridChar(m->form->c, m->form->color, m->x, m->y);
 }

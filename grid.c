@@ -99,7 +99,7 @@ int grid_Tick(grid *g) {
 
 int tile_Draw(grid *g, int x, int y) {
   tile *t = getGridTile(g, x, y);
-  return CLK_RenderChar('.', NULL, x, y);
+  return CLK_DrawGridChar('.', NULL, x, y);
 }
 
 void grid_Draw(grid *g) {

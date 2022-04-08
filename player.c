@@ -23,6 +23,34 @@ int move(SDL_Event e) {
       grid_MoveMonster(cgrid, cgrid->inputblock, destx - 1, desty + 1);
       cgrid->blocking = 0;
       break;
+    case SDLK_KP_4:
+      grid_MoveMonster(cgrid, cgrid->inputblock, destx - 1, desty);
+      cgrid->blocking = 0;
+      break;
+    case SDLK_KP_7:
+      grid_MoveMonster(cgrid, cgrid->inputblock, destx - 1, desty - 1);
+      cgrid->blocking = 0;
+      break;
+    case SDLK_KP_8:
+      grid_MoveMonster(cgrid, cgrid->inputblock, destx, desty - 1);
+      cgrid->blocking = 0;
+      break;
+    case SDLK_KP_9:
+      grid_MoveMonster(cgrid, cgrid->inputblock, destx + 1, desty - 1);
+      cgrid->blocking = 0;
+      break;
+    case SDLK_KP_6:
+      grid_MoveMonster(cgrid, cgrid->inputblock, destx + 1, desty);
+      cgrid->blocking = 0;
+      break;
+    case SDLK_KP_3:
+      grid_MoveMonster(cgrid, cgrid->inputblock, destx + 1, desty + 1);
+      cgrid->blocking = 0;
+      break;
+    case SDLK_KP_2:
+      grid_MoveMonster(cgrid, cgrid->inputblock, destx, desty + 1);
+      cgrid->blocking = 0;
+      break;
     }
   }
   return 0;
