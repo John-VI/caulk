@@ -26,7 +26,7 @@ void CLK_DestroyFont(CLK_Font *font);
 
 CLK_Sprite *CLK_SpriteFromTexture(SDL_Texture *texture, uint8_t mode);
 CLK_Sprite *CLK_SpriteFromFile(const char filename[], uint8_t mode);
-CLK_Font *CLK_FontFromFile(const char filename[], const unsigned int charwidth, const unsigned int charheight,
-			   const unsigned int charsperrow, const unsigned int charspercol);
+CLK_Font *CLK_FontFromFile(const char filename[], unsigned int charwidth, unsigned int charheight,
+			   unsigned int charsperrow, unsigned int charspercol);
 
 #endif /* CLK_TEXTURE_H */

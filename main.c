@@ -72,6 +72,9 @@ int main(int argc, char *argv[]) {
     grid_Draw(cgrid);
     CLK_RenderChar('0' + cgrid->mlist->start->x, NULL, 100, 100);
     CLK_RenderChar('0' + cgrid->mlist->start->y, NULL, 108, 100);
+
+    CLK_DrawGridStr("Foo Bar doggus ipsum", NULL, 1, 15, 1);
+    CLK_DrawGridStr("Foo Bar doggus ipsum", NULL, 1, 16, 0);
     
     SDL_RenderPresent(ren);
   }

@@ -31,11 +31,11 @@ typedef struct coords {
 void tile_Destroy(tile*);
 void grid_Destroy(grid*);
 grid *newGrid(int w, int h);
-tile *getGridTile(grid *g, int x, int y);
-coords spawnMonster(grid *g, monsterform *form, int x, int y);
+tile *getGridTile(const grid *g, int x, int y);
+coords spawnMonster(grid *g, const monsterform *form, int x, int y);
 int grid_Tick(grid*);
-int tile_Draw(grid *g, int x, int y);
-void grid_Draw(grid*);
+int tile_Draw(const grid *g, int x, int y);
+void grid_Draw(const grid*);
 coords grid_MoveMonster(grid *g, monster *m, int x, int y);
 monsterlist *createMonsterList();
 void monsterlist_Destroy(monsterlist*);

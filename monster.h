@@ -33,7 +33,7 @@ typedef struct monster {
 
 void monster_Destroy(monster*);
 int monster_Tick(monster*);
-monster *createMonsterFromForm(monsterform *form, int x, int y);
+monster *createMonsterFromForm(const monsterform *form, int x, int y);
 int monster_Draw(monster *m);
 
 #endif /* MONSTER_H */

@@ -29,7 +29,7 @@ void monsterform_Destroy(monsterform *form) {
   free(form);
 }
 
-monster *createMonsterFromForm(monsterform *form, int x, int y) {
+monster *createMonsterFromForm(const monsterform *form, int x, int y) {
   monster *output = malloc(sizeof(monster));
   output->maxhp = form->maxhp;
   output->hp = output->maxhp;

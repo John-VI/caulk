@@ -64,11 +64,11 @@ grid *newGrid(int w, int h) {
   return output;
 }
 
-tile *getGridTile(grid *grid, int x, int y) {
+tile *getGridTile(const grid *grid, int x, int y) {
   return grid->tiles + (grid->w * y + x);
 }
 
-coords spawnMonster(grid *g, monsterform *form, int x, int y) {
+coords spawnMonster(grid *g, const monsterform *form, int x, int y) {
   monster *nmonster = createMonsterFromForm(form, x, y);
   monsterlist_Append(g->mlist, nmonster);
   getGridTile(g, x, y)->monster = nmonster;
@@ -97,12 +97,12 @@ int grid_Tick(grid *g) {
   return moves;
 }
 
-int tile_Draw(grid *g, int x, int y) {
+int tile_Draw(const grid *g, int x, int y) {
   tile *t = getGridTile(g, x, y);
   return CLK_DrawGridChar('.', NULL, x, y);
 }
 
-void grid_Draw(grid *g) {
+void grid_Draw(const grid *g) {
   for (int x = 0; x < g->w; x++)
     for (int y = 0; y < g->h; y++)
       if (getGridTile(g, x, y)->monster)

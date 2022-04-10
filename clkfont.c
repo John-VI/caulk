@@ -38,3 +38,27 @@ int CLK_DrawGridChar(const char character, const SDL_Color *altcolor, const int 
   return CLK_RenderChar(character, altcolor, _CLK_Current_Grid->x + (r * _CLK_Current_Font->charw),
 			_CLK_Current_Grid->y + (d * _CLK_Current_Font->charh));
 }
+
+int CLK_RenderStr(const char str[], const SDL_Color *altcolor, const int x, const int y, unsigned int maxlen) {
+  int err;
+  for (int i = 0; i < maxlen || !maxlen; i++)
+    if (!str[i])
+      break;
+    else {
+      if ((err = CLK_RenderChar(str[i], altcolor, x + (i * _CLK_Current_Font->charw), y)) > 0)
+	return err;
+    }
+  return 0;
+}
+
+int CLK_DrawGridStr(const char str[], const SDL_Color *altcolor, const int r, const int d, unsigned int maxlen) {
+  int err;
+  for (int i = 0; i < maxlen || !maxlen; i++)
+    if (!str[i])
+      break;
+    else {
+      if ((err = CLK_DrawGridChar(str[i], altcolor, r + i, d)) > 0)
+	return err;
+    }
+  return 0;
+}
