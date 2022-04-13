@@ -13,12 +13,20 @@ SDL_Color _CLK_Default_Font_Color = { 255, 255, 255, 255 };
 extern SDL_Renderer *CLK_Renderer;
 SDL_Rect *_CLK_Current_Grid = NULL;
 
-CLK_Font *CLK_SetFont(CLK_Font *newfont) {
+const CLK_Font *CLK_SetFont(CLK_Font *newfont) {
   return _CLK_Current_Font = newfont;
 }
 
-int CLK_SetRect(SDL_Rect *newrect) {
+const CLK_Font *CLK_GetFont() {
+  return _CLK_Current_Font;
+}
+
+const SDL_Rect *CLK_SetRect(SDL_Rect *newrect) {
   return _CLK_Current_Grid = newrect;
+}
+
+const SDL_Rect *CLK_GetRect() {
+  return _CLK_Current_Grid;
 }
 
 int CLK_RenderChar(const char character, const SDL_Color *altcolor, const int x, const int y) {
