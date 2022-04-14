@@ -5,10 +5,12 @@
 
 #include "clktex.h"
 
-CLK_Font *CLK_SetFont(CLK_Font *newfont);
+const CLK_Font *CLK_SetFont(CLK_Font *newfont);
+const CLK_Font *CLK_GetFont();
 int CLK_RenderChar(char character, const SDL_Color *altcolor, int x, int y);
 int CLK_DrawGridChar(char character, const SDL_Color *altcolor, int r, int d);
-int CLK_SetRect(SDL_Rect *newrect);
+const SDL_Rect *CLK_SetRect(SDL_Rect *newrect);
+const SDL_Rect *CLK_GetRect();
 int CLK_RenderStr(const char str[], const SDL_Color *altcolor, int x, int y, unsigned int maxlen);
 int CLK_DrawGridStr(const char str[], const SDL_Color *altcolor, int r, int d, unsigned int maxlen);
 

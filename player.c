@@ -2,6 +2,7 @@
 
 #include "monster.h"
 #include "grid.h"
+#include "messaging.h"
 
 #include "player.h"
 
@@ -21,6 +22,7 @@ int move(SDL_Event e) {
     switch (e.key.keysym.sym) {
     case SDLK_KP_1:
       grid_MoveMonster(cgrid, cgrid->inputblock, destx - 1, desty + 1);
+      pushmessage("Folga wolga womp imp.");
       cgrid->blocking = 0;
       break;
     case SDLK_KP_4:

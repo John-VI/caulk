@@ -21,7 +21,7 @@ typedef struct monsterform {
 typedef struct monster {
   int maxhp;
   int hp;
-  monsterform *form;
+  const monsterform *form;
   int damage;
   uint16_t status;
   int x;

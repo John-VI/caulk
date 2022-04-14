@@ -61,7 +61,9 @@ int CLK_RenderStr(const char str[], const SDL_Color *altcolor, const int x, cons
 
 int CLK_DrawGridStr(const char str[], const SDL_Color *altcolor, const int r, const int d, unsigned int maxlen) {
   int err;
-  for (int i = 0; i < maxlen || !maxlen; i++)
+  if (maxlen > _CLK_Current_Grid->w / _CLK_Current_Font->charw || maxlen == 0)
+    maxlen = _CLK_Current_Grid->w / _CLK_Current_Font->charw;
+  for (int i = 0; i < maxlen; i++)
     if (!str[i])
       break;
     else {

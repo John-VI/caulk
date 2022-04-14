@@ -23,9 +23,10 @@
 #include "monster.h"
 #include "grid.h"
 #include "player.h"
+#include "messaging.h"
 
-#define INTWID 320
-#define INTHEI 320
+#define INTWID 480
+#define INTHEI 416
 
 int quit = 0;
 int inc = 0;
@@ -54,30 +55,37 @@ int main(int argc, char *argv[]) {
   CLK_SetFont(vga);
 
   setquitaction(exeunt);
-  keycell keybinds[8] = { { SDLK_KP_1, move }, { SDLK_KP_2, move }, { SDLK_KP_3, move }, { SDLK_KP_4, move }, { SDLK_KP_9, move }, { SDLK_KP_6, move }, { SDLK_KP_7, move }, { SDLK_KP_8, move } };
+  keycell keybinds[8] = { { SDLK_KP_1, move }, { SDLK_KP_2, move }, { SDLK_KP_3, move }, { SDLK_KP_4, move },
+			  { SDLK_KP_9, move }, { SDLK_KP_6, move }, { SDLK_KP_7, move }, { SDLK_KP_8, move } };
 
-  cgrid = newGrid(10, 10);
+  cgrid = newGrid(40, 24);
   monsterform form = { 100, '@', &white, AI_Player, 1, 50, 0 };
   spawnMonster(cgrid, &form, 4, 4);
-  SDL_Rect gridrect = { 0, 0, 320, 320 };
+  SDL_Rect messrect = { 0, 0, 20 * 8, 26 * 16 };
+  SDL_Rect gamerect = { 20 * 8, 0, 40 * 8, 24 * 16 };
+  SDL_Rect statrect = { 20 * 8, 24 * 16, 40 * 8, 2 * 16 };
 
-  CLK_SetRect(&gridrect);
+  messaging_Init();
   
   while (!quit) {
     processinputs(keybinds, 8);
     SDL_RenderClear(ren);
     SDL_RenderCopy(ren, frog->texture, NULL, NULL);
 
+    CLK_SetRect(&gamerect);
     grid_Tick(cgrid);
     grid_Draw(cgrid);
-    CLK_RenderChar('0' + cgrid->mlist->start->x, NULL, 100, 100);
-    CLK_RenderChar('0' + cgrid->mlist->start->y, NULL, 108, 100);
 
-    CLK_DrawGridStr("Foo Bar doggus ipsum", NULL, 1, 15, 1);
-    CLK_DrawGridStr("Foo Bar doggus ipsum", NULL, 1, 16, 0);
+    CLK_SetRect(&messrect);
+    drawnewmessages();
+
+    CLK_SetRect(&statrect);
+    CLK_DrawGridStr("Status", NULL, 0, 0, 0);
     
     SDL_RenderPresent(ren);
   }
+
+  messaging_Deinit();
   grid_Destroy(cgrid);
   CLK_DestroySprite(frog);
   CLK_DestroyFont(vga);
