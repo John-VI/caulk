@@ -21,7 +21,7 @@ SDL_Window *CLK_NewWindow(const char name[],  int width,
 
 SDL_Renderer *CLK_NewRenderer( SDL_Window *win,  uint8_t r,  uint8_t g,
 		      uint8_t b,  uint8_t a) {
-  SDL_Renderer *rend = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+  SDL_Renderer *rend = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (rend == NULL) { }
     // TODO: Implement logging
   else {
