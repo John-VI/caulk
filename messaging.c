@@ -26,7 +26,7 @@ void message_Destroy(message *msg) {
 }
 
 void message_ChainDestroy(message *msg) {
-  free(msg->str);
+  free(msg->str); //TODO: Fix string literal free() problem here.
   if (msg->next)
     message_ChainDestroy(msg->next);
   free(msg);

@@ -55,10 +55,13 @@ int main(int argc, char *argv[]) {
   CLK_SetFont(vga);
 
   setquitaction(exeunt);
-  keycell keybinds[8] = { { SDLK_KP_1, move }, { SDLK_KP_2, move }, { SDLK_KP_3, move }, { SDLK_KP_4, move },
-			  { SDLK_KP_9, move }, { SDLK_KP_6, move }, { SDLK_KP_7, move }, { SDLK_KP_8, move } };
+  keycell keybinds[9] = { { SDLK_KP_1, move }, { SDLK_KP_2, move }, { SDLK_KP_3, move }, { SDLK_KP_4, move },
+			  { SDLK_KP_9, move }, { SDLK_KP_6, move }, { SDLK_KP_7, move }, { SDLK_KP_8, move }, { SDLK_q, exeunt } };
 
   cgrid = newGrid(40, 24);
+  tile *wall = getGridTile(cgrid, 25, 20);
+  wall->type = 1;
+  
   monsterform form = { 100, '@', &white, AI_Player, 1, 50, 0 };
   spawnMonster(cgrid, &form, 4, 4);
   SDL_Rect messrect = { 0, 0, 20 * 8, 26 * 16 };
@@ -68,7 +71,7 @@ int main(int argc, char *argv[]) {
   messaging_Init();
   
   while (!quit) {
-    processinputs(keybinds, 8);
+    processinputs(keybinds, 9);
     SDL_RenderClear(ren);
     SDL_RenderCopy(ren, frog->texture, NULL, NULL);
 

@@ -99,7 +99,10 @@ int grid_Tick(grid *g) {
 
 int tile_Draw(const grid *g, int x, int y) {
   tile *t = getGridTile(g, x, y);
-  return CLK_DrawGridChar('.', NULL, x, y);
+  if (t->type == 0)
+    return CLK_DrawGridChar('.', NULL, x, y);
+  else
+    return CLK_DrawGridChar('#', NULL, x, y);
 }
 
 void grid_Draw(const grid *g) {
@@ -112,11 +115,13 @@ void grid_Draw(const grid *g) {
 }
 
 coords grid_MoveMonster(grid *g, monster *m, int x, int y) {
-  getGridTile(g, m->x, m->y)->monster = NULL;
-  getGridTile(g, x, y)->monster = m;
-  m->x = x;
-  m->y = y;
+  tile *dest = getGridTile(g, x, y);
+  if (dest->type == 0) {
+    getGridTile(g, m->x, m->y)->monster = NULL;
+    dest->monster = m;
+    m->x = x;
+    m->y = y;
+  }
   coords output = { x, y };
   return output;
 }
-
