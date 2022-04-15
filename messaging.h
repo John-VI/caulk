@@ -17,7 +17,7 @@ typedef struct msgwrap {
 
 int messaging_Init();
 void messaging_Deinit();
-int pushmessage(char *str);
+int pushmessage(const char *str);
 int drawnewmessages();
 
 #endif /* MESSAGING_H */

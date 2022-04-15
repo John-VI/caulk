@@ -1,6 +1,8 @@
 // Copyright (c) John Allen Whitley, 2022, BSD 3-Clause
 
 #include <stdlib.h>
+#include <string.h>
+
 #include <SDL2/SDL.h>
 
 #include "clkfont.h"
@@ -9,9 +11,10 @@
 
 msgwrap _message_queue;
 
-message *message_Create(char *str) {
+message *message_Create(const char *str) {
   message *output = malloc(sizeof(message));
-  output->str = str;
+  output->str = malloc(sizeof(char) * (strlen(str) + 1));
+  strcpy(output->str, str);
   output->previous = NULL;
   output->next = NULL;
   return output;
@@ -26,7 +29,8 @@ void message_Destroy(message *msg) {
 }
 
 void message_ChainDestroy(message *msg) {
-  free(msg->str); //TODO: Fix string literal free() problem here.
+  free(msg->str); // Just ask the developer if the string should
+                    // be freed, I don't care anymore
   if (msg->next)
     message_ChainDestroy(msg->next);
   free(msg);
@@ -35,7 +39,7 @@ void message_ChainDestroy(message *msg) {
 int backdrawmessages(const message *bck) {
   const CLK_Font *font = CLK_GetFont();
   const SDL_Rect *rect = CLK_GetRect();
-  message *msg = bck;
+  const message *msg = bck;
   int err;
   
   int maxlines = rect->h / font->charh;
@@ -64,7 +68,7 @@ void messaging_Deinit() {
   _message_queue.back = NULL;
 }
 
-int pushmessage(char *str) {
+int pushmessage(const char *str) {
   message *msg = message_Create(str);
   _message_queue.back->next = msg;
   msg->previous = _message_queue.back;
