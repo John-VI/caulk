@@ -4,6 +4,7 @@
 
 #include "clkfont.h"
 #include "monster.h"
+#include "tiletypes.h"
 
 #include "grid.h"
 
@@ -116,11 +117,13 @@ void grid_Draw(const grid *g) {
 
 coords grid_MoveMonster(grid *g, monster *m, int x, int y) {
   tile *dest = getGridTile(g, x, y);
-  if (dest->type == 0) {
+  if (dest->feature.tile_info->flags & TILE_PASSABLE) {
     getGridTile(g, m->x, m->y)->monster = NULL;
     dest->monster = m;
     m->x = x;
     m->y = y;
+    coords output = { x, y };
+    return triggertile(g, m, output);
   }
   coords output = { x, y };
   return output;

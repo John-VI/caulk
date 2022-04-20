@@ -7,7 +7,7 @@
 
 typedef struct tile {
   monster *monster;
-  int type;
+  tile_type *feature;
 } tile;
 
 typedef struct monsterlist {
